@@ -36,7 +36,7 @@ export default function RegisterForm() {
         const data = await response.json();
         setError(data.message || ERROR_REGISTRATION_FAILED);
       }
-    } catch (err) {
+    } catch {
       setError(ERROR_GENERIC);
     }
   };

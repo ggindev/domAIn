@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     try {
       const isAvailable = await checkDomainAvailability(domain, provider);
       results[domain] = isAvailable;
-    } catch (error) {
+    } catch {
       results[domain] = false;
     }
   }
