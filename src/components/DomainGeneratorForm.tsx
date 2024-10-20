@@ -39,7 +39,7 @@ const DomainGeneratorForm: React.FC = () => {
     includeHyphens: false,
     filterMeaningful: false,
     page: 1,
-    pageSize: 100,
+    pageSize: 10,
     prefixes: [],
     tlds: [],
   });
