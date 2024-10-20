@@ -4,7 +4,7 @@ import { generateDomains } from '../../../../services/domainGenerator';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { prefixLength, suffixLength, includeNumbers, includeHyphens, page = 1, pageSize = 100, filterMeaningful } = body;
+    const { prefixLength, suffixLength, includeNumbers, includeHyphens, page = 1, pageSize = 10, filterMeaningful } = body;
 
     // Validate input
     if (typeof prefixLength !== 'number' || prefixLength < 1 || prefixLength > 10 ||
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
         typeof includeNumbers !== 'boolean' || 
         typeof includeHyphens !== 'boolean' ||
         typeof page !== 'number' || page < 1 ||
-        typeof pageSize !== 'number' || pageSize < 1 || pageSize > 1000 ||
+        typeof pageSize !== 'number' || pageSize < 1 || pageSize > 100 ||
         typeof filterMeaningful !== 'boolean') {
       return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
     }
