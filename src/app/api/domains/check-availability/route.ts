@@ -20,7 +20,7 @@ async function checkDomainAvailability(domain: string, providerUrl: string): Pro
   const data = await response.json() as DomainAvailabilityResponse;
   
   if (providerUrl.includes('godaddy')) {
-    return data.available;
+    return data.available ?? false;
   } else if (providerUrl.includes('whoisxmlapi')) {
     return data.WhoisRecord.domainAvailability === 'AVAILABLE';
   } else {
