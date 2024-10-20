@@ -5,15 +5,22 @@ const ERROR_FAILED_FETCH = 'Failed to fetch domain availability';
 const ERROR_UNSUPPORTED_PROVIDER = 'Unsupported provider';
 const ERROR_INVALID_INPUT = 'Invalid input';
 
+interface DomainAvailabilityResponse {
+  available?: boolean;
+  WhoisRecord?: {
+    domainAvailability: string;
+  };
+}
+
 async function checkDomainAvailability(domain: string, providerUrl: string): Promise<boolean> {
   const response = await fetch(`${providerUrl}${domain}`);
   if (!response.ok) {
     throw new Error(ERROR_FAILED_FETCH);
   }
-  const data = await response.json();
+  const data = await response.json() as DomainAvailabilityResponse;
   
   if (providerUrl.includes('godaddy')) {
-    return data.available;
+    return data.available ?? false;
   } else if (providerUrl.includes('whoisxmlapi')) {
     return data.WhoisRecord.domainAvailability === 'AVAILABLE';
   } else {
