@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "launch": "next start",
+    "build": "next build"
+  }
+}
