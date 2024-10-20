@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+const ERROR_REGISTRATION_FAILED = 'Registration failed';
+const ERROR_GENERIC = 'An error occurred. Please try again.';
+const ERROR_PASSWORDS_DO_NOT_MATCH = 'Passwords do not match';
+
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,7 +19,7 @@ export default function RegisterForm() {
     setError('');
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(ERROR_PASSWORDS_DO_NOT_MATCH);
       return;
     }
 
@@ -30,10 +34,10 @@ export default function RegisterForm() {
         router.push('/login');
       } else {
         const data = await response.json();
-        setError(data.message || 'Registration failed');
+        setError(data.message || ERROR_REGISTRATION_FAILED);
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError(ERROR_GENERIC);
     }
   };
 

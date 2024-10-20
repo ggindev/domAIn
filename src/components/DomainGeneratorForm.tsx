@@ -31,6 +31,10 @@ interface DomainAvailability {
   [domain: string]: boolean | null;
 }
 
+const ERROR_CHECKING_AVAILABILITY = 'An error occurred while checking domain availability. Please try again.';
+const ERROR_GENERATING_DOMAINS = 'An error occurred while generating domains. Please try again.';
+const ERROR_ADDING_FAVORITE = 'An error occurred while adding domain to favorites. Please try again.';
+
 const DomainGeneratorForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     prefixLength: 3,
@@ -81,7 +85,7 @@ const DomainGeneratorForm: React.FC = () => {
       setAvailability(prev => ({ ...prev, ...data }));
     } catch (error) {
       console.error('Error checking domain availability:', error);
-      setError('An error occurred while checking domain availability. Please try again.');
+      setError(ERROR_CHECKING_AVAILABILITY);
     }
   };
 
@@ -113,7 +117,7 @@ const DomainGeneratorForm: React.FC = () => {
       await checkAvailability(data.domains.map(d => d.domain));
     } catch (error) {
       console.error('Error generating domains:', error);
-      setError('An error occurred while generating domains. Please try again.');
+      setError(ERROR_GENERATING_DOMAINS);
     } finally {
       setIsLoading(false);
     }
@@ -139,7 +143,7 @@ const DomainGeneratorForm: React.FC = () => {
       setFavorites(prev => [...prev, domain]);
     } catch (error) {
       console.error('Error adding domain to favorites:', error);
-      setError('An error occurred while adding domain to favorites. Please try again.');
+      setError(ERROR_ADDING_FAVORITE);
     }
   };
 

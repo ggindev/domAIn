@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 
+const ERROR_FAILED_FETCH = 'Failed to fetch domain availability';
+const ERROR_UNSUPPORTED_PROVIDER = 'Unsupported provider';
+const ERROR_INVALID_INPUT = 'Invalid input';
+
 async function checkDomainAvailability(domain: string, providerUrl: string): Promise<boolean> {
   const response = await fetch(`${providerUrl}${domain}`);
   if (!response.ok) {
-    throw new Error('Failed to fetch domain availability');
+    throw new Error(ERROR_FAILED_FETCH);
   }
   const data = await response.json();
   
@@ -13,7 +17,7 @@ async function checkDomainAvailability(domain: string, providerUrl: string): Pro
   } else if (providerUrl.includes('whoisxmlapi')) {
     return data.WhoisRecord.domainAvailability === 'AVAILABLE';
   } else {
-    throw new Error('Unsupported provider');
+    throw new Error(ERROR_UNSUPPORTED_PROVIDER);
   }
 }
 
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
   const { domains, provider } = await request.json();
 
   if (!Array.isArray(domains) || domains.length === 0 || typeof provider !== 'string') {
-    return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
+    return NextResponse.json({ error: ERROR_INVALID_INPUT }, { status: 400 });
   }
 
   const results: Record<string, boolean> = {};
