@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../../components/Button';
 
+const ERROR_FETCHING_FAVORITES = 'An error occurred while fetching favorites. Please try again.';
+const ERROR_REMOVING_FAVORITE = 'An error occurred while removing favorite. Please try again.';
+
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +24,7 @@ const FavoritesPage = () => {
         setTotalFavorites(storedFavorites.length);
       } catch (error) {
         console.error('Error fetching favorites:', error);
-        setError('An error occurred while fetching favorites. Please try again.');
+        setError(ERROR_FETCHING_FAVORITES);
       } finally {
         setLoading(false);
       }
@@ -39,7 +42,7 @@ const FavoritesPage = () => {
       setTotalFavorites(updatedFavorites.length);
     } catch (error) {
       console.error('Error removing favorite:', error);
-      setError('An error occurred while removing favorite. Please try again.');
+      setError(ERROR_REMOVING_FAVORITE);
     }
   };
 

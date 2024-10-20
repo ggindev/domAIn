@@ -3,6 +3,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+const ERROR_LOGIN_FAILED = 'Login failed';
+const ERROR_GENERIC = 'An error occurred. Please try again.';
+
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,10 +27,10 @@ export default function LoginForm() {
         router.push('/profile');
       } else {
         const data = await response.json();
-        setError(data.message || 'Login failed');
+        setError(data.message || ERROR_LOGIN_FAILED);
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError(ERROR_GENERIC);
     }
   };
 
