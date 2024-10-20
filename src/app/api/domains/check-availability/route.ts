@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import { setTimeout } from 'timers/promises';
+import fetch from 'node-fetch';
 
-// Mock function to check domain availability
 async function checkDomainAvailability(domain: string): Promise<boolean> {
-  // Simulate API call delay
-  await setTimeout(100);
-  // Return a fixed availability status for testing purposes
-  return true;
+  const response = await fetch(`https://api.example.com/check?domain=${domain}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch domain availability');
+  }
+  const data = await response.json();
+  return data.available;
 }
 
 export async function POST(request: Request) {
@@ -18,10 +19,13 @@ export async function POST(request: Request) {
 
   const results: Record<string, boolean> = {};
 
-  // Check availability for domains
   for (const domain of domains) {
-    const isAvailable = await checkDomainAvailability(domain);
-    results[domain] = isAvailable;
+    try {
+      const isAvailable = await checkDomainAvailability(domain);
+      results[domain] = isAvailable;
+    } catch (error) {
+      results[domain] = false;
+    }
   }
 
   return NextResponse.json(results);
