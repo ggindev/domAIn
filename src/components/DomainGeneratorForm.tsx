@@ -51,7 +51,6 @@ const DomainGeneratorForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [availability, setAvailability] = useState<DomainAvailability>({});
-  const [favorites, setFavorites] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -125,7 +124,7 @@ const DomainGeneratorForm: React.FC = () => {
 
   const handlePageChange = (newPage: number) => {
     setFormData(prev => ({ ...prev, page: newPage }));
-    handleSubmit(new Event('submit') as any);
+    handleSubmit(new Event('submit') as unknown as React.FormEvent);
   };
 
   const handleFavorite = async (domain: string) => {

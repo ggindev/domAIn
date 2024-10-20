@@ -29,7 +29,7 @@ export default function LoginForm() {
         const data = await response.json();
         setError(data.message || ERROR_LOGIN_FAILED);
       }
-    } catch (err) {
+    } catch {
       setError(ERROR_GENERIC);
     }
   };

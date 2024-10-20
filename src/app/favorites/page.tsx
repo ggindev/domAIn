@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Button from '../../components/Button';
 
 const ERROR_FETCHING_FAVORITES = 'An error occurred while fetching favorites. Please try again.';
@@ -14,7 +13,6 @@ const FavoritesPage = () => {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [totalFavorites, setTotalFavorites] = useState(0);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchFavorites = () => {
