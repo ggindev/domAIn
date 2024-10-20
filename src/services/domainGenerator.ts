@@ -7,19 +7,32 @@ interface DomainInfo {
 }
 
 async function checkMeaningfulWords(words: string[]): Promise<Record<string, boolean>> {
-  const response = await fetch('/api/words/check-meaningful', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ words }),
-  });
+  const results: Record<string, boolean> = {};
 
-  if (!response.ok) {
-    throw new Error('Failed to check meaningful words');
+  for (const word of words) {
+    const cachedResult = localStorage.getItem(word);
+    if (cachedResult !== null) {
+      results[word] = cachedResult === 'true';
+    } else {
+      const response = await fetch('/api/words/check-meaningful', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ words: [word] }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check meaningful words');
+      }
+
+      const data = await response.json();
+      results[word] = data[word];
+      localStorage.setItem(word, data[word].toString());
+    }
   }
 
-  return response.json();
+  return results;
 }
 
 export async function generateDomains(

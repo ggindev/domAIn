@@ -1,14 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from 'next-auth/react';
-import { addFavorite } from '../../../../services/favoritesService';
 
 export async function POST(req: NextRequest) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     const { domain } = await req.json();
 
@@ -16,7 +8,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
     }
 
-    await addFavorite(session.user.email, domain);
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (!favorites.includes(domain)) {
+      favorites.push(domain);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
 
     return NextResponse.json({ message: 'Domain added to favorites' });
   } catch (error) {

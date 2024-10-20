@@ -12,15 +12,11 @@ const FavoritesPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchFavorites = () => {
       try {
-        const response = await fetch(`/api/favorites?page=${page}&pageSize=${pageSize}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch favorites');
-        }
-        const data = await response.json();
-        setFavorites(data.favorites);
-        setTotalFavorites(data.total);
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        setFavorites(storedFavorites);
+        setTotalFavorites(storedFavorites.length);
       } catch (error) {
         console.error('Error fetching favorites:', error);
         setError('An error occurred while fetching favorites. Please try again.');
@@ -32,20 +28,13 @@ const FavoritesPage = () => {
     fetchFavorites();
   }, [page, pageSize]);
 
-  const handleRemoveFavorite = async (domain: string) => {
+  const handleRemoveFavorite = (domain: string) => {
     try {
-      const response = await fetch('/api/favorites/remove', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ domain }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to remove favorite');
-      }
-      setFavorites(prev => prev.filter(fav => fav !== domain));
-      setTotalFavorites(prev => prev - 1);
+      const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const updatedFavorites = storedFavorites.filter((fav: string) => fav !== domain);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      setFavorites(updatedFavorites);
+      setTotalFavorites(updatedFavorites.length);
     } catch (error) {
       console.error('Error removing favorite:', error);
       setError('An error occurred while removing favorite. Please try again.');

@@ -1,14 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from 'next-auth/react';
-import { removeFavorite } from '../../../../services/favoritesService';
 
 export async function POST(req: NextRequest) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     const { domain } = await req.json();
 
@@ -16,7 +8,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
     }
 
-    await removeFavorite(session.user.email, domain);
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const updatedFavorites = favorites.filter((fav: string) => fav !== domain);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
 
     return NextResponse.json({ message: 'Domain removed from favorites' });
   } catch (error) {

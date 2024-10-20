@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server';
-import NodeCache from 'node-cache';
 import { setTimeout } from 'timers/promises';
-
-// Initialize cache with 10 minute TTL
-const cache = new NodeCache({ stdTTL: 600 });
 
 // Mock function to check domain availability
 async function checkDomainAvailability(domain: string): Promise<boolean> {
@@ -23,11 +19,11 @@ export async function POST(request: Request) {
   const results: Record<string, boolean> = {};
   const uncachedDomains: string[] = [];
 
-  // Check cache first
+  // Check local storage first
   for (const domain of domains) {
-    const cachedResult = cache.get<boolean>(domain);
-    if (cachedResult !== undefined) {
-      results[domain] = cachedResult;
+    const cachedResult = localStorage.getItem(domain);
+    if (cachedResult !== null) {
+      results[domain] = cachedResult === 'true';
     } else {
       uncachedDomains.push(domain);
     }
@@ -42,7 +38,7 @@ export async function POST(request: Request) {
       for (const domain of uncachedDomains) {
         const isAvailable = await checkDomainAvailability(domain);
         results[domain] = isAvailable;
-        cache.set(domain, isAvailable);
+        localStorage.setItem(domain, isAvailable.toString());
       }
       break; // Success, exit retry loop
     } catch (error) {
