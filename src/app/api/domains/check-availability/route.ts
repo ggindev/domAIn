@@ -22,6 +22,9 @@ async function checkDomainAvailability(domain: string, providerUrl: string): Pro
   if (providerUrl.includes('godaddy')) {
     return data.available ?? false;
   } else if (providerUrl.includes('whoisxmlapi')) {
+    if (!data.WhoisRecord) {
+      return false;
+    }
     return data.WhoisRecord.domainAvailability === 'AVAILABLE';
   } else {
     throw new Error(ERROR_UNSUPPORTED_PROVIDER);
