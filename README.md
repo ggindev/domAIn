@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Domain Name Discovery Frontend
+
+Welcome to the **Domain Name Discovery** frontend repository! This project is the user-facing part of the Domain Name Discovery website, designed to help users find available, lucrative, short, and catchy domain names efficiently.
+
+## Project Overview
+
+The **Domain Name Discovery** frontend is built to provide users with an intuitive and responsive interface for generating and filtering domain names based on specific patterns. Users can:
+
+- Generate domain names based on customizable patterns.
+- Check real-time availability of generated domains.
+- Filter domains to display only those that form meaningful words.
+- Save favorites and set up watchlists.
+
+## Features
+
+- **Domain Name Generator:** Create domain names based on user-defined patterns.
+- **Real-Time Availability Checker:** Instantly check the availability status of domains.
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up the frontend project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ensure you have the following installed on your machine:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Node.js** (v14.x or higher)
+- **npm** (v6.x or higher) or **Yarn** (v1.22.x or higher)
+- **Git** (for cloning the repository)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the Repository**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone https://github.com/yourusername/domain-name-discovery-frontend.git
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Navigate to the Project Directory**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   cd domain-name-discovery-frontend
+   ```
 
-## Deploy on Vercel
+3. **Install Dependencies**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Using npm:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   ```
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
