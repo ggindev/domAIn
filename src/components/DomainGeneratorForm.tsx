@@ -41,6 +41,7 @@ const DomainGeneratorForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [availability, setAvailability] = useState<DomainAvailability>({});
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -107,6 +108,25 @@ const DomainGeneratorForm: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     setFormData(prev => ({ ...prev, page: newPage }));
     handleSubmit(new Event('submit') as any);
+  };
+
+  const handleFavorite = async (domain: string) => {
+    try {
+      const response = await fetch('/api/favorites/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ domain }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add domain to favorites');
+      }
+      setFavorites(prev => [...prev, domain]);
+    } catch (error) {
+      console.error('Error adding domain to favorites:', error);
+      setError('An error occurred while adding domain to favorites. Please try again.');
+    }
   };
 
   return (
@@ -199,6 +219,12 @@ const DomainGeneratorForm: React.FC = () => {
                   {domainInfo.isMeaningful && (
                     <span className="ml-2 text-blue-500">Meaningful</span>
                   )}
+                  <Button
+                    onClick={() => handleFavorite(domainInfo.domain)}
+                    className="ml-2"
+                  >
+                    Favorite
+                  </Button>
                 </div>
               </li>
             ))}
