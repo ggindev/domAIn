@@ -41,7 +41,9 @@ export async function generateDomains(
   includeNumbers: boolean,
   includeHyphens: boolean,
   page: number = 1,
-  pageSize: number = 100
+  pageSize: number = 100,
+  prefixes: string[] = [],
+  tlds: string[] = []
 ): Promise<DomainInfo[]> {
   const characters = ALPHABET + (includeNumbers ? NUMBERS : '') + (includeHyphens ? '-' : '');
   const totalLength = prefixLength + suffixLength;
