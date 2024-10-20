@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import { apiProviders } from '../api/domains/providers';
+import { apiProviders } from './api/domains/providers';
 
 export default function Home() {
   const [searchInput, setSearchInput] = useState('');
