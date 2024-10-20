@@ -51,6 +51,7 @@ const DomainGeneratorForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [availability, setAvailability] = useState<DomainAvailability>({});
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -129,17 +130,12 @@ const DomainGeneratorForm: React.FC = () => {
 
   const handleFavorite = async (domain: string) => {
     try {
-      const response = await fetch('/api/favorites/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ domain }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add domain to favorites');
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      if (!favorites.includes(domain)) {
+        favorites.push(domain);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        setFavorites(prev => [...prev, domain]);
       }
-      setFavorites(prev => [...prev, domain]);
     } catch (error) {
       console.error('Error adding domain to favorites:', error);
       setError(ERROR_ADDING_FAVORITE);
