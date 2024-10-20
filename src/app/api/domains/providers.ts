@@ -1,14 +1,10 @@
 export const apiProviders = [
   {
-    name: 'Provider 1',
-    url: 'https://api.provider1.com/check?domain=',
+    name: 'GoDaddy',
+    url: 'https://api.godaddy.com/v1/domains/available?domain=',
   },
   {
-    name: 'Provider 2',
-    url: 'https://api.provider2.com/check?domain=',
-  },
-  {
-    name: 'Provider 3',
-    url: 'https://api.provider3.com/check?domain=',
+    name: 'WhoisAPI',
+    url: 'https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=',
   },
 ];
