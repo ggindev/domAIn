@@ -9,6 +9,8 @@ interface FormData {
   filterMeaningful: boolean;
   page: number;
   pageSize: number;
+  prefixes: string[];
+  tlds: string[];
 }
 
 interface DomainInfo {
@@ -36,6 +38,8 @@ const DomainGeneratorForm: React.FC = () => {
     filterMeaningful: false,
     page: 1,
     pageSize: 100,
+    prefixes: [],
+    tlds: [],
   });
   const [results, setResults] = useState<DomainResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +52,14 @@ const DomainGeneratorForm: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : Number(value),
+    }));
+  };
+
+  const handleArrayInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'prefixes' | 'tlds') => {
+    const { value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [field]: value.split(',').map(item => item.trim()),
     }));
   };
 
@@ -193,6 +205,28 @@ const DomainGeneratorForm: React.FC = () => {
             />
             Filter Meaningful Words
           </label>
+        </div>
+        <div>
+          <label htmlFor="prefixes" className="block mb-1">Desired Prefixes (comma-separated):</label>
+          <input
+            type="text"
+            id="prefixes"
+            name="prefixes"
+            value={formData.prefixes.join(', ')}
+            onChange={(e) => handleArrayInputChange(e, 'prefixes')}
+            className="w-full px-3 py-2 border rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="tlds" className="block mb-1">Desired TLDs (comma-separated):</label>
+          <input
+            type="text"
+            id="tlds"
+            name="tlds"
+            value={formData.tlds.join(', ')}
+            onChange={(e) => handleArrayInputChange(e, 'tlds')}
+            className="w-full px-3 py-2 border rounded"
+          />
         </div>
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Generating...' : 'Generate Domains'}

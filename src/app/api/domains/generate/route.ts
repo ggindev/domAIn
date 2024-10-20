@@ -23,15 +23,8 @@ export async function POST(req: NextRequest) {
       domains = domains.filter(domain => domain.isMeaningful);
     }
 
-    // Return a fixed list of domains for testing purposes
-    const fixedDomains = [
-      { domain: 'test1.com', isMeaningful: true },
-      { domain: 'test2.com', isMeaningful: false },
-      { domain: 'test3.com', isMeaningful: true },
-    ];
-
     return NextResponse.json({ 
-      domains: fixedDomains,
+      domains,
       page,
       pageSize,
       totalCombinations: Math.pow((26 + (includeNumbers ? 10 : 0) + (includeHyphens ? 1 : 0)), (prefixLength + suffixLength))
