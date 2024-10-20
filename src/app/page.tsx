@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import Button from '../components/Button';
+import { apiProviders } from '../api/domains/providers';
 
 export default function Home() {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [selectedProvider, setSelectedProvider] = useState(apiProviders[0].url);
 
   const handleSearch = async () => {
     try {
@@ -14,7 +16,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ domains: [searchInput] }),
+        body: JSON.stringify({ domains: [searchInput], provider: selectedProvider }),
       });
 
       if (!response.ok) {
@@ -42,6 +44,17 @@ export default function Home() {
           placeholder="Enter domain name"
           className="w-full px-3 py-2 border rounded"
         />
+        <select
+          value={selectedProvider}
+          onChange={(e) => setSelectedProvider(e.target.value)}
+          className="w-full px-3 py-2 border rounded"
+        >
+          {apiProviders.map((provider, index) => (
+            <option key={index} value={provider.url}>
+              {provider.name}
+            </option>
+          ))}
+        </select>
         <Button variant="primary" onClick={handleSearch}>Search Domains</Button>
       </div>
       {searchResults.length > 0 && (
